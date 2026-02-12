@@ -26,19 +26,19 @@ const arrToObj = (arr) =>
 const strToObj = () =>
   Array.from(str).reduce((acc, val, index) => ({ ...acc, [index]: val }));
 
-const superTypeOf = (element) => {
-  if (element === null) return "null";
-  if (element === undefined) return "undefined";
-  if (element instanceof Map) return "Map";
-  if (element instanceof Set) return "Set";
-  if (Array.isArray(element)) return "Array";
-  if (element instanceof Object && !(element instanceof Function)) return "Object";
-  if (typeof element === "number" && isNaN(element)) return "NaN";
-  if (typeof element === "number") return "Number";
-  if (typeof element === "string") return "String";
-  if (typeof element === "function") return "Function";
-  if (typeof element === "boolean") return "Boolean";
-  return typeof element;
+const superTypeOf = (val) => {
+  if (val === null) return "null";
+  if (val === undefined) return "undefined";
+  if (val instanceof Map) return "Map";
+  if (val instanceof Set) return "Set";
+  if (Array.isArray(val)) return "Array";
+  if (val instanceof Object && !(val instanceof Function)) return "Object";
+  if (typeof val === "number" && isNaN(val)) return "NaN";
+  if (typeof val === "number") return "Number";
+  if (typeof val === "string") return "String";
+  if (typeof val === "function") return "Function";
+  if (typeof val === "boolean") return "Boolean";
+  return typeof val;
 };
 
 console.log(superTypeOf(map));

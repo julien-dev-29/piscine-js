@@ -1,6 +1,6 @@
 const countLeapYears = (date) => {
   let count = 0;
-  const year = date.getFullYear()
+  const year = date.getFullYear();
   for (let index = 1; index < year; index++) {
     if (isLeapYear(index)) count++;
   }

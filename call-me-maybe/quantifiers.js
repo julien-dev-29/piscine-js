@@ -2,6 +2,7 @@
  *
  * @param {Array} arr
  * @param {Function} callbackFn
+ * @returns {boolean}
  */
 const every = (arr, callbackFn) => {
   for (let i = 0; i < arr.length; i++) {
@@ -14,6 +15,7 @@ const every = (arr, callbackFn) => {
  *
  * @param {Array} arr
  * @param {Function} callbackFn
+ * @returns {boolean}
  */
 const some = (arr, callbackFn) => {
   for (let i = 0; i < arr.length; i++) {
@@ -26,6 +28,7 @@ const some = (arr, callbackFn) => {
  *
  * @param {Array} arr
  * @param {Function} callbackFn
+ * @returns {boolean}
  */
 const none = (arr, callbackFn) => !some(arr, callbackFn);
 

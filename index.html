@@ -2,45 +2,25 @@
 <html>
 
 <head>
-  <title>Build brick and break</title>
+  <title>Fifty shades of cold</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link id="fav" rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;,">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+
 </head>
 
 <body>
   <script type="module">
-    import { build, repair, destroy } from './dom/build-brick-and-break.js'
 
-    build(54)
+    import { generateClasses, generateColdShades, choseShade } from './dom/fifty-shades-of-cold.js'
 
-    const body = document.querySelector('body')
+    generateClasses()
+    generateColdShades()
 
-    const tools = document.createElement('section')
-    tools.id = 'tools'
-    body.append(tools)
-
-    const dynamite = document.createElement('span')
-    dynamite.id = 'dynamite'
-    dynamite.textContent = '🧨'
-    dynamite.addEventListener('click', destroy)
-
-    const hammer = document.createElement('span')
-    hammer.id = 'hammer'
-    hammer.textContent = '🔨'
-    hammer.addEventListener('click', () => repair(...reparations))
-
-    tools.append(dynamite, hammer)
-
-    const random = (min, max) => {
-      min = Math.ceil(min)
-      max = Math.floor(max)
-      return Math.floor(Math.random() * (max - min + 1)) + min
-    }
-    const randomBricks = [...Array(15).keys()].map((e) => `brick-${random(1, 54)}`)
-    const reparations = [...new Set([randomBricks])]
-
-    body.dataset.reparations = reparations
+    const divs = [...document.querySelectorAll('div')]
+    divs.map((d) => {
+      d.addEventListener('click', () => choseShade(d.textContent))
+    })
 
   </script>
 </body>

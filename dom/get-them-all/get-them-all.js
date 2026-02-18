@@ -1,20 +1,26 @@
+/**
+ *
+ * @returns {[HTMLElement, HTMLElement[]]}
+ */
 export function getBonannoPisano() {
-  const actives = Array.from(getActive()[0]);
+  const [actives] = getActive();
   const bonannoPisano = document.getElementById("BonannoPisano");
-  const others = actives.filter((active) => active.id !== "BonannoPisano");
+  const others = Array.from(actives).filter(
+    (active) => active.id !== "BonannoPisano",
+  );
   return [bonannoPisano, others];
 }
 
 /**
  *
- * @returns
+ * @returns {[HTMLElement[], HTMLElement[]]}
  */
 export function getActive() {
-  const classicals = Array.from(getClassical()[0]);
-  const targetted = classicals.filter((classical) =>
+  const [classicals] = getClassical();
+  const targetted = Array.from(classicals).filter((classical) =>
     classical.classList.contains("active"),
   );
-  const others = classicals.filter(
+  const others = Array.from(classicals).filter(
     (classical) => !classical.classList.contains("active"),
   );
   return [targetted, others];
@@ -22,7 +28,7 @@ export function getActive() {
 
 /**
  *
- * @returns
+ * @returns {[HTMLElement[], HTMLElement[]]}
  */
 export const getArchitects = () => {
   const targetted = document.querySelectorAll("a");
@@ -32,14 +38,14 @@ export const getArchitects = () => {
 
 /**
  *
- * @returns
+ * @returns {[HTMLElement[], HTMLElement[]]}
  */
 export const getClassical = () => {
-  const architects = Array.from(getArchitects()[0]);
-  const targetted = architects.filter((arch) =>
+  const [architects] = getArchitects();
+  const targetted = Array.from(architects).filter((arch) =>
     arch.classList.contains("classical"),
   );
-  const others = architects.filter(
+  const others = Array.from(architects).filter(
     (arch) => !arch.classList.contains("classical"),
   );
   return [targetted, others];

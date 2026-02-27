@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sortable</title>
+  <script type="module" crossorigin src="/assets/index-3_uP8fTm.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-C8dXfXYp.css">
+</head>
+
+<body>
+    <dialog id="dialog">
+        <button id="close" class="btn" type="button">Close</button>
+        <div class="hero-details"></div>
+    </dialog>
+
+    <div class="search-container">
+        <input type="text" placeholder="Type a name..." id="inputSearch">
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Icon</th>
+                <th>Name</th>
+                <th>Full Name</th>
+                <th>Powerstats</th>
+                <th>Race</th>
+                <th>Gender</th>
+                <th>Height</th>
+                <th>Weight</th>
+                <th>Place Of Birth</th>
+                <th>Alignment</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="select">
+        <label for="pageSize">Result per page</label>
+        <select id="pageSize">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="all">All</option>
+        </select>
+    </div>
+    <div class="pagination"></div>
+</body>
+
+</html>

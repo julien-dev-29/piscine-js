@@ -4,7 +4,6 @@ const fusion = (obj1, obj2) => {
   for (const key of keys) {
     const val1 = obj1[key];
     const val2 = obj2[key];
-
     if (val1 === undefined) {
       result[key] = val2;
     } else if (val2 === undefined) {

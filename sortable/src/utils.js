@@ -3,7 +3,7 @@
  * @param {string|number} value - The value to extract number from
  * @returns {number|null} - The numeric value or null if not parseable
  */
-const extractNumber = (value) => {
+export const extractNumber = (value) => {
   if (typeof value === "number") return value
   if (!value || value === "unknown") return null
   const num = parseInt(value.toString().replace(/\D/g, ""), 10)
@@ -89,8 +89,10 @@ export const getPaginationRange = (page, perPage) => {
  * @returns {Array} Sorted heroes array
  */
 export const sortHeroes = (heroes, column, direction = "asc") => {
+  // boolean pour savoir si la colonne est triée dans l'ordre acsendant ou descendant
   const isAsc = direction === "asc"
 
+  // On retourne un nouveau tableau
   return [...heroes].sort((a, b) => {
     const valueA = getSortValue(a, column)
     const valueB = getSortValue(b, column)
@@ -106,6 +108,7 @@ export const sortHeroes = (heroes, column, direction = "asc") => {
       result = String(valueA).localeCompare(String(valueB))
     }
 
+    // On inverse suivant le boolean
     return isAsc ? result : -result
   })
 }

@@ -2,6 +2,8 @@ import { displayPagination } from "./pagination.js"
 import { displayHeroDetails } from "./hero-details.js"
 import { getPaginationRange, sortHeroes } from "../utils.js"
 
+let urlUpdateCallback = null
+
 let currentHeroes = []
 let dialogElement = null
 let sortColumn = "id"
@@ -29,12 +31,21 @@ const COLUMN_MAP = {
 export const initTable = ($tbody, dialog) => {
   dialogElement = dialog
 
+  // Ferme la modale
   dialog.addEventListener("click", (e) => {
     if (e.target === dialog) {
       dialog.close()
     }
   })
 
+  // When dialog closes, clear hero from URL
+  dialog.addEventListener("close", () => {
+    if (urlUpdateCallback) {
+      urlUpdateCallback(null)
+    }
+  })
+
+  // Event qui ouvre la modale avec les détails du hero clické
   $tbody.addEventListener("click", (e) => {
     const row = e.target.closest("tr")
     if (!row) return
@@ -43,11 +54,18 @@ export const initTable = ($tbody, dialog) => {
     if (hero) {
       dialogElement.showModal()
       displayHeroDetails(hero)
+      if (urlUpdateCallback) {
+        urlUpdateCallback(Number(heroId))
+      }
     }
   })
 
+  // Gere les click dans le header de la table
   const $thead = document.querySelector("thead")
   $thead.addEventListener("click", (e) => {
+    /**
+     * @type {HTMLTableHeaderCellElement}
+     */
     const th = e.target.closest("th")
     if (!th || th.cellIndex === 1) return // Skip icon column
 
@@ -61,6 +79,7 @@ export const initTable = ($tbody, dialog) => {
       sortDirection = "asc"
     }
 
+    // Met à jour l'interface
     updateSortIndicators()
     const sortedHeroes = sortHeroes(currentHeroes, sortColumn, sortDirection)
     updateTable(sortedHeroes, getCurrentPerPage(), 1)
@@ -77,7 +96,7 @@ const getCurrentPerPage = () => {
 }
 
 /**
- * Updates sort indicators in table headers
+ * Updates sort indicators "▲" in table headers
  */
 const updateSortIndicators = () => {
   const headers = document.querySelectorAll("thead th")
@@ -93,11 +112,32 @@ const updateSortIndicators = () => {
  * Sets sort column and direction, then updates table
  * @param {string} column - Column to sort by
  * @param {string} direction - 'asc' or 'desc'
+ * @param {boolean} [updateUrlFlag=true] - Whether to update URL
  */
-export const setSort = (column, direction = "asc") => {
+export const setSort = (column, direction = "asc", updateUrlFlag = true) => {
   sortColumn = column
   sortDirection = direction
   updateSortIndicators()
+  if (updateUrlFlag && urlUpdateCallback) {
+    urlUpdateCallback()
+  }
+}
+
+/**
+ * Gets current sort state
+ * @returns {{column: string, direction: string}}
+ */
+export const getSortState = () => ({
+  column: sortColumn,
+  direction: sortDirection,
+})
+
+/**
+ * Sets the callback for URL updates
+ * @param {Function} callback - Callback function
+ */
+export const setUrlUpdateCallback = (callback) => {
+  urlUpdateCallback = callback
 }
 
 /**
@@ -131,7 +171,7 @@ export const updateTable = (heroes, perPage = 20, page = 1) => {
  * @param {Object} hero - Hero object
  * @returns {HTMLTableRowElement}
  */
-const createHeroRow = (hero) => {
+export const createHeroRow = (hero) => {
   const $row = document.createElement("tr")
   $row.dataset.id = hero.id
   $row.classList.add("row")
@@ -161,7 +201,7 @@ const createHeroRow = (hero) => {
  * @param {Object} [attributes] - Additional attributes
  * @returns {HTMLElement}
  */
-const createCell = (tag, text, attributes = {}) => {
+export const createCell = (tag, text, attributes = {}) => {
   const $cell = document.createElement(tag)
   $cell.textContent = text
   Object.entries(attributes).forEach(([key, value]) => {
@@ -175,7 +215,7 @@ const createCell = (tag, text, attributes = {}) => {
  * @param {Object} hero - Hero object
  * @returns {HTMLTableCellElement}
  */
-const createImageCell = (hero) => {
+export const createImageCell = (hero) => {
   const $cell = document.createElement("td")
   $cell.classList.add("image")
   const $img = document.createElement("img")
@@ -190,7 +230,7 @@ const createImageCell = (hero) => {
  * @param {Object} powerstats - Powerstats object
  * @returns {HTMLTableCellElement}
  */
-const createPowerstatsCell = (powerstats) => {
+export const createPowerstatsCell = (powerstats) => {
   const $cell = document.createElement("td")
   Object.entries(powerstats).forEach(([key, value]) => {
     const $span = document.createElement("div")

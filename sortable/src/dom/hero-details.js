@@ -46,7 +46,7 @@ export const displayHeroDetails = (hero) => {
  * @param {Object} powerstats - Powerstats object
  * @returns {HTMLDivElement}
  */
-const createPowerstatsSection = (powerstats) => {
+export const createPowerstatsSection = (powerstats) => {
   const $section = document.createElement("div")
   $section.classList.add("detail-section")
 
@@ -83,7 +83,7 @@ const createPowerstatsSection = (powerstats) => {
  * @param {Object} appearance - Appearance object
  * @returns {HTMLDivElement}
  */
-const createAppearanceSection = (appearance) => {
+export const createAppearanceSection = (appearance) => {
   const $section = document.createElement("div")
   $section.classList.add("detail-section")
 
@@ -116,7 +116,7 @@ const createAppearanceSection = (appearance) => {
  * @param {Object} biography - Biography object
  * @returns {HTMLDivElement}
  */
-const createBiographySection = (biography) => {
+export const createBiographySection = (biography) => {
   const $section = document.createElement("div")
   $section.classList.add("detail-section")
 

@@ -1,4 +1,5 @@
-import { updateTable } from "./table.js"
+import { updateTable, getSortState } from "./table.js"
+import { updateUrl, serializeState } from "../utils-url.js"
 
 /**
  * Displays pagination controls
@@ -30,14 +31,14 @@ export const displayPagination = (heroes, perPage, currentPage = 1) => {
 /**
  * Determines if a page button should be shown
  */
-const shouldShowPageButton = (i, totalPages, currentPage) => {
+export const shouldShowPageButton = (i, totalPages, currentPage) => {
   return i <= 5 || i > totalPages - 5 || Math.abs(i - currentPage) <= 1
 }
 
 /**
  * Determines if a separator should be shown
  */
-const shouldShowSeparator = (i, totalPages, currentPage) => {
+export const shouldShowSeparator = (i, totalPages, currentPage) => {
   return (i === 6 && currentPage > 4) || (i === totalPages - 5 && currentPage < totalPages - 3)
 }
 
@@ -58,15 +59,46 @@ const createPageButton = (pageNum, currentPage, perPage, heroes) => {
 
   $button.addEventListener("click", () => {
     updateTable(heroes, perPage, pageNum)
+    updatePaginationUrl(pageNum)
   })
 
   return $button
 }
 
 /**
+ * Updates URL when page changes
+ * @param {number} page - New page number
+ */
+const updatePaginationUrl = (page) => {
+  const $searchInput = document.getElementById("inputSearch")
+  const $searchField = document.getElementById("searchField")
+  const $searchOperator = document.getElementById("searchOperator")
+  const $pageSize = document.getElementById("pageSize")
+
+  const query = $searchInput?.value || ""
+  const field = $searchField?.value || "name"
+  const operator = $searchOperator?.value || "include"
+  const size = $pageSize?.value || "20"
+  const sortState = getSortState()
+
+  const state = serializeState(
+    query,
+    field,
+    operator,
+    size,
+    page,
+    sortState.column,
+    sortState.direction,
+    null
+  )
+
+  updateUrl(state)
+}
+
+/**
  * Gets border radius based on button position
  */
-const getBorderRadius = (totalPages, pageNum) => {
+export const getBorderRadius = (totalPages, pageNum) => {
   if (pageNum === 1 && totalPages === 1) {
     console.log("yolo")
     return "5px"

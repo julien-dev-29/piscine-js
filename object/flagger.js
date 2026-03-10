@@ -1,18 +1,22 @@
 /**
  *
- * @param {Object} obj
- * @returns
+ * @param {Object} commands
+ * @returns {Object}
  */
-const flag = (obj) => {
+const flag = (commands) => {
   const result = {
     alias: {},
     description: [],
   };
-  for (const key in obj) {
-    result.alias[key[0]] = key;
+  const { help = [], ...actions } = commands;
+  for (const name of Object.keys(actions)) {
+    result.alias[name[0]] = name;
   }
-  for (const command of obj.help) {
-    result.description.push(`-${command[0]}, --${command}: ${obj[command]}`);
+  for (const name of help) {
+    if (!actions[name]) continue;
+    const short = name[0];
+    const desc = actions[name];
+    result.description.push(`-${short}, --${name}: ${desc}`);
   }
   return result;
 };

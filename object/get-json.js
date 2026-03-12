@@ -1,3 +1,9 @@
+/**
+ *
+ * @param {string} path
+ * @param {Object} params
+ * @returns
+ */
 const getJSON = async (path, params = {}) => {
   const url = new URL(path);
   Object.entries(params).forEach(([key, value]) => {
